@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       d3015aef-a800-4def-b74e-b0386f212e38
+:END:
+#+title: Programming Languages
+
+List of Programming Languages:
+- [[id:ec5ce3f9-2c73-4fac-a572-8147be4f249c][Clojure]]
+  - [[id:0789dfec-d2e8-484c-894e-551f16ba7f2a][Clojurescript]]
+- [[id:fc7bf406-6dbe-4f1b-a714-d35864f8c4ca][JavaScript]]
+  - [[id:65e9161d-d4b1-4f4f-be24-a81a431df178][Flow]]
+  - [[id:26626188-a9db-4ef4-a043-028322e8dfa5][TypeScript]]

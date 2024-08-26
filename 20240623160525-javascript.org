@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       fc7bf406-6dbe-4f1b-a714-d35864f8c4ca
+:END:
+#+title: JavaScript
+
+A scripting language commonly used for web development.

@@ -1,0 +1,29 @@
+:PROPERTIES:
+:ID:       46cdd1de-fb3b-40fc-a57f-24b173f25ffd
+:END:
+#+title: Mainframe Assembler
+
+Reference: https://www.reddit.com/r/mainframe/comments/400ogh/smashing_the_zos_le_daisy_chain_for_fun_and_cease/
+Reference: [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Reading concatenated PDSE using QSAM - ibmmainframeforum.com]]
+
+* Assemblers
+
+| Keyword  | Code     | Name                        | Last ISA               |
+| ASMA90   |          |                             | z/Architecture         |
+| CWPAMAIN |          |                             | Alternative to ASMA90? |
+| IEV90    | 5668-962 | Assembler H Version 2       | System 370/XA          |
+| IEV90    | 5734-AS1 | Assembler H                 |                        |
+| IEASM    |          | F Assembler                 |                        |
+| IFOX00   |          | Assembler XF / VS Assembler |                        |
+
+ASMA90 has some complementary cataloged procedures in SYS1.PROCLIB:
+| Name    | Notes                                                                                         |
+| ASMAC   | Assembly (compile).                                                                           |
+| ASMACL  | Assembly (compile) & Link. Produces an assembler listing, binder listing, and program module. |
+| ASMACLG | Assembly (compile), link, & run.                                                              |
+
+ASMAxx series modules (load libraries) are stored under SYS1.ASM.SASMMOD1.
+
+Reference: https://www.ibm.com/docs/en/hla-and-tf/1.6?topic=procedures-cataloged-procedure-assembly-link-asmacl
+Reference: https://www.mvsforums.com/helpboards/viewtopic.php?p=2061&sid=da94c3b0b2598fbd6f5c4f49ebda7c97
+Reference: https://ibmmainframes.com/about9945.html

@@ -1,0 +1,25 @@
+:PROPERTIES:
+:ID:       82f6f8ec-f1b1-4cd3-8a31-4e0fc148406a
+:END:
+#+title: Microsoft CSP
+
+* Partner Designation
+
+Docs: [[https://learn.microsoft.com/en-gb/partner-center/members/mpn-pay-fee-silver-gold-competency][Fee Structure]]
+
+The Silver/Gold legacy partner designation.
+
+
+* Granular Delegated Admin Privileges (GDAP)
+
+Docs: [[https://learn.microsoft.com/en-us/partner-center/gdap-obtain-admin-permissions-to-manage-customer][Overview]]
+
+Replaces DAP.
+
+* Microsoft 365 Lighthouse
+
+Multi-tenant management for Microsoft CSPs.
+
+Scope:
+- Microsoft Entra ID
+- Defender for Business(?)

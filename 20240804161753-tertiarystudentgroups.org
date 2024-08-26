@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       28a4185e-109c-4e9e-8ddb-ed2c945b33e2
+:END:
+#+title: Tertiary Student IT Groups and Programmes
+
+* Student Groups
+
+- [[https://developers.google.com/community/gdsc][Google Developer Student Clubs (GDSC)]]
+- [[https://isc2chapter.sg/Youthwing][ISC2 Singapore Chapter Youth Wing]]
+  
+
+* Student Programmes
+
+- [[https://mvp.microsoft.com/en-US/studentambassadors][Microsoft Learn Student Ambassadors (MSLA)]]
+- [[https://edu.alibabacloud.com/campus/index][Alibaba Cloud Empowerment Program (AAEP)]]
+- [[https://www.ibm.com/z/resources/zxplore][IBM zXplore (fka. Master the Mainframe)]]

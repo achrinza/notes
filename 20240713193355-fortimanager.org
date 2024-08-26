@@ -1,0 +1,243 @@
+:PROPERTIES:
+:ID:       a2fffd6e-ba13-45b1-a7cb-4a01303271a6
+:END:
+#+title: FortiManager (FMG)
+
+A centralised management and provisioning console by [[id:3608c1f8-a00a-4158-93a6-fdb53dc6553f][Fortinet]] - This is called "central management".
+
+Although it's primary purpose is centralised configuration management, it is capable of multiple, separate responsibilities:
+
+- Centralised configuration management
+- Integrated FortiAnalyzer
+- Built-in FortiGuard Distribution Server (FDS)
+- FortiGuard cache server
+
+consolidate management / log collection of:
+
+- FortiAP
+- FortiExtender
+- [[id:a9d3bbe6-b4a6-4873-a24f-0a2b19a1a446][FortiGate]]
+- Fortinet Security Fabric (6.2.0 onwards)
+  - FortiClient
+  - FortiGate
+  - FortiMail
+  - FortiSandbox
+  - FortiWeb
+- FortiSwitch
+
+* Mode of operation
+
+FortiManager interacts with FortiGate through the FortiGate to FortiManager (FGFM) Protocol.
+
+* Core concepts
+
+- Adding managed object
+- Policy Package
+- Object
+- Administrative Domain (ADOM)
+- High Availability (HA)
+- Administrator
+- Troubleshooting
+
+
+* Administrative Domain (ADOM)
+
+ADOMs act as an adiministrative boundary between managed devices, policy packages, and objects.
+
+
+** Enabling ADOMs
+
+ADOMs are not enabled by default. To enable,
+
+GUI: System Settings > ADOM
+
+CLI:
+
+#+BEGIN_SRC shell
+  config system global
+    set adom-status [enable|disable]
+  end
+#+END_SRC
+
+Toggling ADOM requires re-login.
+
+Afterwards, switching ADOMs is done through the top-right corner of the web page ("ADOM: <ADOM name>").
+
+
+** ADOM modes
+
+An ADOM-level setting that changes what the ADOM is used for.
+
+Normal mode is the most common option, and allows full device management.
+
+Backup mode only permits addition and deletion of devices, and is intended for revision control and tracking purposes.
+
+| Normal mode                                         | Backup mode                                                  |
+|-----------------------------------------------------+--------------------------------------------------------------|
+| ADOM is read/write                                  | ADOM is read-only                                            |
+| All management panes available                      | Not all management panes available                           |
+| Can add/delete devices from Device Manager          | Can add/delete devices from Device Manager                   |
+| Can configure/install device-level settings         | Cannot configure/instal device-level settings                |
+| Can make config canges to ADOMs and managed devices | Must make changes directly on managed devices or use scripts |
+
+
+** ADOM device modes
+
+ADOM device mode is a global FortiManager setting which dictates the relationship between Device/VDOM and ADOMs.
+
+This should not be confused with ADOM modes.
+
+GUI: System Settings > Advanced > Misc Settings
+
+| Normal mode                             | Advanced mode                       |
+|-----------------------------------------+-------------------------------------|
+| Device/VDOM added to a single ADOM only | Device/VDOM added to multiple ADOMs |
+
+
+** `root` ADOM
+
+Root ADOM acts as a 
+
+
+* Administrators
+
+GUI: System Settings > Administrators
+
+Administrators can be restricted by:
+
+- ADOMs
+  - All ADOMs
+  - All ADOMs except specified ones
+  - Specify
+- Administrative profiles
+  The actual permissions the administrator will posses within the selected ADOMs
+- Trusted hosts
+  Restrict login through specified IPv4/IPv6 addresses.
+
+  
+** Administrative profiles
+
+There are two types of administrative profiles:
+
+- System Admin
+  Granular read/write configuration to certain features.
+- Restricted Admin
+  Used to delegate management of security profiles within ADOMS:
+  - Web filtering profiles
+  - IPS sensors
+  - Application sensor
+    
+
+There are preset System Admin profiles.
+
+Administrative profiles do not specify the ADOM/s that the apply to - This is instead defined on each administrator.
+
+
+** Authentication
+
+Local password authentication is supported.
+
+Remote authentication servers can be used for non-local administrator logins:
+- LDAP
+- RADIUS
+- TACACS+
+- PKI
+
+Two-factor authentication is supported with:
+- FortiAuthenticator
+- FortiToken Cloud
+
+
+* Workspace mode
+
+Workspace mode prevents concurrent read/write access to items by multiple administrators.
+
+These locks can be applied to:
+- ADOMs
+- Specific devices
+- Policy packages
+- Objects
+- Individual policies (Per-policy lock must be enabled)
+
+** Configuring workspace mode
+
+GUI: System Settings > Advanced > Workspace
+
+CLI:
+#+BEGIN_SRC shell
+config system global
+  set workspace-mode [normal|per-adom|workflow]
+end
+#+END_SRC
+
+There are four workspace modes:
+- Disable
+- Workspace (ALL ADOMs)
+  All ADOMs can be locked
+- Workspace (Per-ADOM)
+  Only ADOMs configured for workspace mode can be locked
+- Workflow (ALL ADOMs)
+  - All ADOMs can be locked
+  - All changes must be reviewed and approved by authorised admins before they are applied
+
+Optionally, "per-policy lock" can be enabled (default: disabled) - This allow for a more fine-grained locking.
+
+
+* FortiManager Configuration Management
+
+** Backup and restore
+
+Scope of backups:
+- All devices
+- Global database
+- Flash configuration
+- Excluded:
+  - Logs
+  - FortiGuard objects (antivirus, anti-spam, web filter, etc)
+  - Saved firmware images
+
+    
+Backups can be saved to:
+- FTP
+- SCP
+- SFTP
+
+
+Optionally, a cryptographic password can be added to the backup.
+
+*** Restoring
+
+CLI:
+#+BEGIN_SRC shell
+execute migrate all-settings [ftp|scp|sftp] [server] [filepath] [user] [password] [cryptpassword]
+#+END_SRC
+
+Restoring will cause FortiManager to go into offline mode.
+
+
+*** Reset
+
+CLI:
+#+BEGIN_SRC shell
+  # Reset to factory default settings:
+  execute reset all-settings
+  # Reset all settings except current IP address and route information:
+  execute reset all-except-ip
+  # Delete all databases and logs, and repartition the hard disks:
+  execute format [dist|disk-ext3|disk-ext4] <raid level> deep-erase <erase-times>
+#+END_SRC
+
+
+* Troubleshooting
+
+Diagnosing issues on FortiManager boils down to two area:
+1. System resource usage
+2. Corrupt databases
+3. Connectivity status
+
+
+** System resource usage
+
+#+BEGIN_SRC shell
+
+#+END_SRC

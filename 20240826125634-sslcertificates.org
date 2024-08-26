@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       7bc3f8c4-2039-44c8-bbe2-0de9013c128a
+:END:
+#+title: SSL Certificates
+
+* Securing Certificates
+
+** Certificate Transparency Logs
+
+** ACME CAA
+
+Reference: https://www.devever.net/~hl/acme-caa-live

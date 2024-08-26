@@ -1,0 +1,48 @@
+:PROPERTIES:
+:ID:       704391dc-ada6-43c9-aea6-938046b2be4c
+:END:
+#+title: Mainframe Processing
+
+* Processors
+
+| Acronym | Name                                      | Notes              |
+| CP      | Central Processor                         |                    |
+| zAAP    | System Z Application Assist Processor     | Java, XML Services |
+| zIIP    | System Z Integrated Information Processor |                    |
+| IFL     | Integrated Facility for Linux             |                    |
+| ICF     | Internal Coupling Facility                |                    |
+
+
+** Central Processor (CP)
+
+Pricing is based on MSUs in 4-hour rolling peak(?).
+
+
+** zAAP on zIIP
+
+More modern systems (since 2009) support running zAAP-eligible workloads on zIIPs.
+
+
+* Workload Types
+
+Workloads are deployed and prioritised by the Workload Manager (WLM) software.
+These workloads are deployed as threads, under either enclave TCB or SRC mode.
+
+TCBs and SRBs are a "unit of work".
+
+| Acronym | Name                  | Notes                                          |
+| TCB     | Task Control Block    |                                                |
+| SRB     | Service Request Block | Lightweight. Only ABEND supervisor calls (SVC) |
+
+Programmes can leverage multiple TCBs to exploit multiple processors simultaneously.
+
+Typically, a pair of TCB and SRB threads are spun out to enable partial zIIP offloading.
+
+SRBs cannot "own" storage areas, but can obtain, reference, use, and free storage areas.
+TCB must own the storage areas. (What is a storage area?)
+
+** Enclaves
+
+Preemptable enclaves are used to do work on behalf of the originating TCB or SRB address space.
+It represents a transaction or unit of work.
+Useful for non-traditional workloads that span platforms (e.g. web transactions, distributed processing).

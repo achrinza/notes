@@ -1,0 +1,80 @@
+:PROPERTIES:
+:ID:       a9d3bbe6-b4a6-4873-a24f-0a2b19a1a446
+:END:
+#+title: FortiGate
+
+Fortigate is a firewall appliance by Fortinet.
+
+* Firewall Policy
+
+Inspection modes:
+- Flow-based
+  - Examines the file as it passes through FortiGate
+  - No buffering buffering.
+  Features not available:
+  - SafeSearch enforcement
+- Proxy-based
+  - Traffic is buffered
+  - Examines th data as a whole, can examine more points of data.
+  - Fewer false-positives, and false-negatives.
+  - Adds latency
+
+** Firewall (User) Authentication
+
+Added to the "Source" of a Firewall Policy
+
+Types:
+- Local password authentication
+  - Credentials are stored on FortiGate
+  - Guest accounts are supported
+    
+- Remote password authentication
+  - Credentials are stored on a remote serer (e.g. FortiAuthenticator)
+  - Desirable for multiple FortiGate installations
+  - Supports:
+    - LDAP
+    - RADIUS
+
+Note: User Groups are created on FortiGate for both local and remote types.
+
+** SSL Inspection
+
+Types:
+- Certificate Inspection
+  - Verifies the identity of the web server
+  - Only supports web filtering
+    
+- Deep/Full Insepction
+  - Finds threats and blocks them
+  - Supported Protocols:
+    - HTTPS, SMTPS, POP3S, IMAPS, FTPS
+
+Profiles:
+- Preloaded SSL Inspection Profiles
+- Custom SSL Inspection Profiles
+
+** Antivirus
+
+FortiGuard Labs provides a database of signatures that allow FortiGate to identify malware
+
+Techniques:
+- Antivirus Scan
+  Known malware
+- Grayware Scan
+  Unwanted programs
+- Machine Learning/Artificial Intelligence Scan
+  Zero-day 
+
+Profile configuration:
+- Detect Viruses Action
+  Blcok / Monitor
+
+- Feature Set
+  Flow-based / Proxy-based
+  
+- Original File Destination:
+  FortiSandbox / File Quarantine / Discard
+- Treat Window Executables in Email Attachments as Viruses
+- Include Mobile Malware Protection
+- Use FortiGuard Outbreak Prevention Database
+- Use External Malware Block List

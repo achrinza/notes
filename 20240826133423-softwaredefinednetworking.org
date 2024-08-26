@@ -1,0 +1,25 @@
+:PROPERTIES:
+:ID:       2735bf50-2476-4903-8e13-cb2faa75ca38
+:END:
+#+title: Software Defined Networking
+
+Notes for software-defined networking (SDN).
+
+** Terminologies
+
+- Traditional SDN: Dataplane communication with external controller
+- STRATUM: Network switch operating system
+- P4lang: Network switch programming language. 1st-class support in STRATUM.
+- BMv2: Behavioural Model / Reference P4 software switch. Non-production
+- SONiC: Network switch operating system donated by Microsoft to Open Compute. Leverages SAI.
+- SAI: Swtich Abstract Interface / Common interface supported by network switch ASIC vendors for programming. Part of Open Compute
+- SONiC-P4: Software switch which runs on BMv2. Leverages `sai_bm.p4` to emulate data plane behaviour.
+- ONIE: Pre-installed network switch operating system for providing an evironment for automated operating system provisioning
+
+** References
+
+- https://github.com/sonic-net/SONiC/wiki/SONiC-P4-Software-Switch
+- https://groups.google.com/a/opennetworking.org/g/stratum-dev/c/SUAey6b-snE
+- https://plvision.eu/rd-lab/blog/opensource/network-operating-system-sonic-stratum-dent-os
+- https://www.opencompute.org/projects/onie 
+

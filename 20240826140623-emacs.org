@@ -1,0 +1,101 @@
+:PROPERTIES:
+:ID:       303ac415-4546-4fdf-bfcb-46c83ca4afc0
+:END:
+#+title: Emacs
+
+* Cheat Sheet
+
+C-x C-c	: Quit Emacs
+C-g	: In `-nw` mode, quits Emacs. Otherwise, cancels current keyboard sequence
+
+
+** Within-file navigation
+
+n     	: Next section of same level
+C-v OR Space : Forward screen
+M-v OR Backspace : Backward screen
+C-k 	: Kill ine from curent point
+C-a 	: Start of line
+C-e 	: End of line
+M-a 	: Start of sentence
+M-e 	: End of sentence
+M-f 	: Forward word
+M-b 	: Back word
+M-r 	: Cycle cursor v pos center, top, bottom; Resets when cursor is moved
+M-< 	: Top of buffer
+M-> 	: End of buffer
+C-f 	: Forward character
+C-b 	: Backward character
+
+
+** Within-file search
+
+C-s	: Search forward
+C-r	: Search backward
+
+
+** Within-file mode
+
+C-x C-q	: Toggle read-only mode
+
+
+** Within-file others
+
+C-SPACE		: Start selection (twice to disable selection)
+C-u [n] C-x TAB	: Indent selection by [n] spaces
+C-q TAB		: Insert <TAB> character
+
+
+** Window mania
+
+C-x 2 : Split vertically
+C-x 3 : Split horizontally
+
+M-x window-swap-states : Swap the states (i.e. "positions") of 2 live windows
+
+C-x b   : Open buffer in current window
+C-x 4 b : Open buffer in new window
+C-x 4 f : Open file in new window
+M- shell : Open shell in new window
+
+C-x 0	: Close selected window
+C-x 4 0	: Close selected window and buffer
+C-x 1 	: Close all other windows except selected one
+C-x o	: Switch between visible windows
+
+C-x +   : Balance all window width and height
+C-x }   : Widen window
+C-x {   : Shrink window
+C-x ^   : Heighten window
+
+
+** File management
+
+C-x 5 f : Open file in other frame
+C-x d	: Open Dired (directory/file manager) in current window
+
+** Buffer management
+
+C-x k *buffer* RET        : Kill buffer of that name (Default: Current buffer)
+M-x kill-some-buffers     : Offer to kill each buffer, one by one
+M-X kill-matching-buffers : Offer to kill all buffers matching a regexp
+M-x clean=buffer-list     : Purge unmodified buffers that have not been used in a long time
+
+
+** Save files
+
+C-x C-s : Save current buffer to its file
+C-x s   : Save all buffers to their files
+C-x C-w : Save current buffer with a specified file name
+
+M-~     : Mark buffer as not modified
+C-U M-~ : Mark buffer as modified
+
+
+** References
+- https://willschenk.com/articles/2021/setting_up_emacs_for_typescript_development/
+- https://masteringemacs.org/article/evaluating-elisp-emacs
+- https://stackoverflow.com/questions/48426870/emacs-symbols-function-definition-is-void-use-package
+- https://melpa.org/#/getting-started
+- https://www.gnu.org/software/emacs/manual/html_node/emacs/Package-Files.html
+- https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html

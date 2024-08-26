@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       0789dfec-d2e8-484c-894e-551f16ba7f2a
+:END:
+#+title: Clojurescript
+
+Transpiles and interops with [[id:fc7bf406-6dbe-4f1b-a714-d35864f8c4ca][JavaScript]]. Shares codebase with [[id:ec5ce3f9-2c73-4fac-a572-8147be4f249c][Clojure]].

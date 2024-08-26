@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       3608c1f8-a00a-4158-93a6-fdb53dc6553f
+:END:
+#+title: Fortinet
+
+Fortinet is a firewall-oriented vendor.
+
+Their product offerings include:
+- [[id:a9d3bbe6-b4a6-4873-a24f-0a2b19a1a446][FortiGate]]

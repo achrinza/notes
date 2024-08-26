@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       88e4f334-a369-42ba-9c5f-84f58be22481
+:END:
+#+title: #DIR Mainframe
+
+- [[id:704391dc-ada6-43c9-aea6-938046b2be4c][Mainframe Processing]]
+- [[id:0905ce29-ce80-414e-ac0c-16553f6c70c6][Mainframe Storage]]
+- [[id:46cdd1de-fb3b-40fc-a57f-24b173f25ffd][Mainframe Assembler]]

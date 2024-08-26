@@ -1,0 +1,31 @@
+:PROPERTIES:
+:ID:       77f3c21b-0b2b-44bd-8ce0-5512eef6a94b
+:END:
+#+title: PGP
+
+** References
+- https://www.linuxfoundation.org/blog/pgp-web-of-trust-delegated-trust-and-keyservers/
+- https://datatracker.ietf.org/doc/html/rfc7435.html (Opportunistic Security: Some Protection Most of the Time)
+- https://autocrypt.org
+- https://sequoia-pgp.org
+- https://tools.ietf.org/id/draft-koch-openpgp-webkey-service-05.html
+- https://datatracker.ietf.org/doc/html/draft-dkg-openpgp-stateless-cli-03 (Stateless OpenPGP Command Line Interface draft-dkg-openpgp-stateless-cli-03
+
+* Master Key Migration
+
+- https://security.stackexchange.com/questions/32935/migrating-gpg-master-keys-as-subkeys-to-new-master-key
+- http://web.archive.org/web/20200620041634/http://atom.smasher.org/gpg/gpg-migrate.txt
+- https://security.stackexchange.com/questions/115291/what-is-the-recommended-procedure-to-migrate-to-a-new-openpgp-master-key
+- https://web.archive.org/web/20160304091638/https://we.riseup.net/assets/176898/key%20transition
+
+* PGP DANE
+
+- http://miroslav.suchy.cz/blog/archives/2021/02/11/verify_package_gpg_signature_using_dnssec/index.html
+- http://miroslav.suchy.cz/blog/archives/2021/02/13/how_to_generate_openpgp_record_for_dns_type61/index.html
+
+* Migrating PGP Private Keys
+
+- https://unix.stackexchange.com/questions/481939/how-to-export-a-gpg-private-key-and-public-key-to-a-file
+- https://vhs.codeberg.page/post/moving-gpg-keys-privately/
+- https://web.archive.org/web/20170518155052/https://montemazuma.wordpress.com/2010/03/01/moving-a-gpg-key-privately/
+

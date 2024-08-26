@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       857e0fac-f635-41ef-9132-681f931d1746
+:END:
+#+title: Singapore IT Societies
+
+- ASEAN Chief Information Officer Association (ACIOA)
+- Asociation of Informatoin Security Profesionals (AiSP)
+- Centre for Strategic Cyberspace & International Studies (CSCIS)
+- Cloud Security Alliance (CSA)
+- Innovation Cybersecurity Ecosystem at Block 71 (ICE71)
+- [[https://isc2chapter.sg][International Information System Security Certificatin Consortium (ISC2) Singapore Chapter]]
+- [[https://isc2chapter.sg][ISACA Singapore Chapter]]
+- Operational Technology Information Sharing and Analysis Center (OT-ISAC)
+- SGTech

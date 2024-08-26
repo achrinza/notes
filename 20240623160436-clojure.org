@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       ec5ce3f9-2c73-4fac-a572-8147be4f249c
+:END:
+#+title: Clojure
+
+Clojure is a Lisp-dialect programming language that runs on top of the JVM
+
+Website: https://clojure.org

@@ -1,0 +1,161 @@
+:PROPERTIES:
+:ID:       0905ce29-ce80-414e-ac0c-16553f6c70c6
+:END:
+#+title: Mainframe Storage
+
+* Access methods
+
+Note: Access methods do not define how the dataset is stored. For example, BSAM/QSAM can be used to access PDSE datasets with [[https://www.ibm.com/docs/en/zos/2.4.0?topic=pdse-structure][certain limitations]].
+
+| Acronym | Name                            | DSORG | Can access        | Dataset type                                                                       | Notes                                      |
+|---------+---------------------------------+-------+-------------------+------------------------------------------------------------------------------------+--------------------------------------------|
+| BSAM    | Basic Sequential Access Method  | PS    |                   | Basic format sequential; Large format sequential; Extended-format; z/OS UNIX files |                                            |
+| QSAM    | Queued Sequential Access Method | PS    |                   | Sequential                                                                         | Repalces BSAM from z/OS 1.7.               |
+| BDAM    | Basic Direct Access Method      | DA    | BSAM (Sequential) |                                                                                    | Obsolete                                   |
+| BPAM    | Basic Partitioned Access Method | PO    |                   |                                                                                    |                                            |
+| VSAM    | Virtual Storage Access Method   | N/A   |                   |                                                                                    | Use IDCAMS. Works on DASD datastores only. |
+
+** QSAM
+
+Chained scheduling: Combines multiple blocks into a single I/O (EXCP).
+
+* Data Control Block (DCB) parameters
+
+** Data set organisation (DSORG) (excluding VSAM)
+
+| Acronym | Name                          | Notes                           |
+| PS      | Physical Squential            | Only this is supported for tape |
+| PD      | Partitioned Organization      |                                 |
+| IS      | Indexed Sequential            |                                 |
+| DA      | Direct Access                 |                                 |
+| VSAM    | Virtual Storage Access Method |                                 |
+
+Add "U" for direct addressing (e.g. "PSU").
+
+** Record Format (RECFM) (excluding VSAM)
+
+In Windows/Linux, a plaintext format for storing records may use `\r\n` (aka newline) as a delimeter. In z/OS, the record length is used instead.
+
+- If fixed-length records are used, any leftover space is preserved.
+- Variable-length records prepend 4-byte RDW at the start of each record to define its length.
+
+When defining RECFM, use a combination of "Byte 1" and "Byte 2" below:
+
+| Byte 1 | Name             | Notes                                                               |
+|--------+------------------+---------------------------------------------------------------------|
+| F      | Fixed length     |                                                                     |
+| V      | Variable length  | Additional 4 bytes for Record Descriptor Word (RDW) needed in LRECL |
+| U      | Undefined length |                                                                     |
+
+| Byte 2 | Name            | Notes                                     |
+|--------+-----------------+-------------------------------------------|
+| B      | Blocked records |                                           |
+| S      | Spanned records | Logical records can span multiple blocks. |
+| BS     | Blocked spanned |                                           |
+
+e.g FB = Fixed-Blocked
+
+
+*** Blocked records
+
+Although programmes work in terms of records (i.e. lines), disks work in terms of blocks. Reading 5 records "without blocks" means 5 I/Os (EXCP).
+
+Most disks pretend to be 3390s, track size 56,664 bytes.
+
+The max blocksize is 32k. However, as all contents of a block must be on the same track, using purely 32k blocksize means 56,664 - 32k of the track will be unused.
+Hence, it's recommended to do half-track blocking to optimise use of the track.
+
+Reference: [[e.g FB = Fixed-Blocked][RECFM=U: What Exact Is It?]]
+
+* Data set type (DSNTYPE)
+
+DSNTYPE is mostly optional, and can be inferred based on other data set attributes, the data set class for the data set class, or an installation default.
+
+| Name    | Description                                     | Can be implicitly default? | Notes                                                                   |
+|---------+-------------------------------------------------+----------------------------+-------------------------------------------------------------------------|
+| LIBRARY | Partitioned Data Set Extended (PDSE)            |                            | Can be accessed with BSAM, QSAM with limitations. Introduced in MVS/XA. |
+| PDS     | Partitioned Data Set                            |                            | Use zFS instead.                                                        |
+| HFS     | Hierarchical File System                        | No                         |                                                                         |
+| PIPE    | FIFO Special File / Named Pipe                  | No                         | Must code PATH. Must not code DATASET or DSNAME.                        |
+| LARGE   | Large-format sequential                         |                            |                                                                         |
+| EXTREQ  | Extended format, required                       |                            |                                                                         |
+| EXTPREF | Extended format, preferred                      |                            |                                                                         |
+| BASIC   | Basic format sequential                         |                            |                                                                         |
+| [Blank] | Sequential or PDS, depending on Directory field |                            | What is a Directory field?                                              |
+
+zFS uses a VSAM linear data set underneath, and is more performant than HFS.
+
+Extended format (EXTREQ, EXTPREF) can be used for both sequential and VSAM datasets.
+
+Reference: https://www.ibm.com/docs/en/zos/2.4.0?topic=dp-subparameter-definition-8
+Reference: https://www.ibm.com/docs/en/zos/2.4.0?topic=dp-defaults-4
+Reference: https://bit.listserv.ibm-main.narkive.com/rAy357KU/how-to-allocate-pdse-s
+Reference: https://programming.comp.narkive.com/qobt9WLS/what-is-dataset
+
+* VSAM
+
+IDCAMS = Integrated Data Cluster Access Method Services (Utility name: AMS)
+
+** VSAM sub-types
+
+| Keyword    | Acronym | Name                      | Functional Equivalent |
+|------------+---------+---------------------------+-----------------------|
+| NONINDEXED | ESDS    | Entry-Sequenced Data Sets | PS                    |
+| INDEXED    | KSDS    | Key-Sequenced Data Sets   | IS                    |
+| NUMBERED   | RRDS    | Relative Record Data Sets | DA                    |
+| LINEAR     | LDS     | Linear Data Sets          | N/A                   |
+
+| Acronym | Name                 | Notes                                                                    |
+| RRDS    | Fixed-length RRDS    |                                                                          |
+| VRRDS   | Variable-length RDDS | RECORDSIZE(min,max) is set with differing min and max size. Rarely used. |
+
+
+** VSAM clusters
+
+Assuming we create a VSAM dataset `USER01.TEST.VSAM` of KSDS type:
+
+```
+USER01.TEST.VSAM        - Cluster component
+USER01.TEST.VSAM.DATA   - Data component
+USER01.TEST.VSAM.INDEX  - Index component
+```
+
+By convention, the data and index component use those names but there is no technical restriction.
+
+** VSAM catalogs
+
+* Extended Format
+
+* HFS and Z/FS
+
+| Acronym | Name                     | Underlying dataset | Notes         |
+|---------+--------------------------+--------------------+---------------|
+| HFS     | Hierarchical File System | PDS-like           |               |
+| z/FS    |                          | VSAM LDS           | From z/OS 1.7 |
+
+* Recipes
+** Creating a PDSE dataset with a member
+
+#+BEGIN_SRC JCL
+  //**********************************************************
+  //**           CREATE THE PDSE                            **
+  //**********************************************************
+  //STEP10  EXEC PGM=IEFBR14                                 
+  //DD01      DD DSN=HLQ.PDSE1,                           
+  //             DISP=(NEW,CATLG,DELETE),                     
+  //             UNIT=DISK,SPACE=(CYL,(2,1)),                 
+  //             DCB=(LRECL=80,BLKSIZE=0,DSORG=PO,RECFM=FB), 
+  //             DSNTYPE=LIBRARY                             
+  //**********************************************************
+  //**           CREATE A PDSE MEMBER                       **
+  //**********************************************************
+  //STEP20  EXEC PGM=ICEGENER                                 
+  //SYSUT1    DD *                                           
+  //SYSUT2    DD DSN=HLQ.PDSE1(MEMBER1),DISP=SHR         
+  //SYSPRINT  DD SYSOUT=*                                     
+  //SYSIN     DD DUMMY                                       
+  //**********************************************************
+#+END_SRC
+
+Reference: [[https://ibmmainframes.com/about26028.html][Create a PDSE in JCL by using DSNTYPE=LIBRARY | ibmmainframes.com]]
+Reference: https://www.mainframestechhelp.com/tutorials/vsam/file-access-methods.htm

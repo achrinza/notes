@@ -1,0 +1,88 @@
+:PROPERTIES:
+:ID:       dc2f6fa4-7198-4267-8666-d3004d69a029
+:END:
+#+title: SIM Card
+
+* SIM card notes
+
+** Terminology Breakdown
+
+- ISO/IEC 7816: The specification which UICC and PIV smart cards are based off. Specifically, the ID-1 card type.
+- ESI/3GPP TS 102 221: The specification of the UICC (Universal Integrated Circuit Card) smart card (Java card)
+- OPEN: The "mini OS" which runs on the UICC. Created by Global Platform
+- Open Mobile API: API for ME to transmit APDU to the UICC
+- SIM: Legacy applet which make operations with the GSM network
+- USIM: "Improved SIM" applet that can operate in GSM, UMTS, and LTE networks. Typcially, only USIM (not SIM) applet would be installed on the UICC.
+
+** Notes
+
+SIM and uSIM cards are smartcards designed for telecommunications. They use the same physical protocol to communicate with the device, and hence a regular PC/SC or serial smartcard reader will work.
+
+SIM cards can have applets(?) installed and activated on them for use when slotted into a device. This is the same feature of smartcards - To run mini programmes on the card itself, which has its own processor, EEPROM, and NVRAM. Most SIM card applets are written in Java Card, a subset of Java specifically to work with the constraints of smartcards.
+
+In most devices, the SIM card communicates directly with the baseband. This means that the mobile operating system may be unaware to the activity of the SIM card, which may include over-the-air applet installation through broadcast SMS, sending of SMS, and making of a phone call.
+
+The physical protocol for communication between the smartcard and the device was defined by the SIM Alliance (Stylised "SIMAlliance", now "Trusted Connectvity Alliance"). This specification seems to have been 
+
+** Java Card
+
+Java Card is a specification with an accompanying free-to-download JCDK (Java Card Development Kit) and emulator which can be used to develop the smartcard applets. The JCDK can be used in place of the standard JDK to allow use with open-source IDEs such as Eclipse.
+
+Some limitaitons of Java Card include:
+
+- No garbage collection
+- No standard APIs, threads, etc.
+- No strings (Use byte arrays instead)
+- No multi-dimensional arrays
+- No chars
+- No floats
+- int is optional (Use bytes instead)
+- Does not validate applet binaries (i.e. Delegate responsibility to the issuers themselves).
+
+Instances and class variables are saved in EEPROM, which survives power cycles but has limited write cycles.
+
+** SIM Toolkit (STK)
+
+SIM Toolkit (STK) is the specification for simcard apps, built on Java Card. It allows:
+
+- Retrieval of mobile device's features
+- Sending of UIs to the mobile device.
+
+STK introduces the "processToolkit" class method, which is called when an event is triggered. These events could include menu item selection, or a timer that was instantiated to "wake up" the Java Card app periodically.
+
+** GlobalPlatform
+
+> Note: Is GlobalPlatform only for UICC? IIRC, Issuer Security Domain is not a Jav Card feature.
+
+GlobalPlatform is a standard for loading and managing apps on Java Cards. It defines a Card Manager app, which defines management protocols and commands, and assists with authentication and encryption. GlobalPlatform also deals with off-card responsibilities (e.g. Issuer needs to verify applet binaries).
+
+All apps loaded and authorized by the Issuer Security Domain - This means it's not possible to load apps onto a card that we didn't issue ourselves. However, a vulnerability was found in some implementations with a brute-force rainbow table against weak DES cipher.
+
+** References
+
+- https://osmocom.org/projects/simtrace/wiki/RebelSIM
+- http://shop.sysmocom.de/
+- https://supersim.wordpress.com/rebel-sim-ii-enhanced-universal-unlocking-functions-support-1000s-models/
+- https://labs.p1sec.com/2012/12/02/sim-man-in-the-middle/
+- https://www.kosagi.com/w/index.php?title=Fernvale_Main_Page
+- https://osmocom.org/projects/simtrace2/wiki
+- https://gsmmap.org
+- https://opensource.srlabs.de/projects/snoopsnitch
+- https://lists.srlabs.de/pipermail/gsmmap/2019-July/001476.html
+- https://www.srlabs.de/bites/new-sim-attacks
+- https://medium.com/telecom-expert/more-proactive-sims-f8da2ef8b189
+- https://osmocom.org/projects/pysim/wiki
+- https://www.leg.ba/labkit/
+- https://github.com/theapache64/sim-jacker/issues/1
+- https://trustedconnectivityalliance.org/
+- http://www.smartcard-magic.net/en/pc-sc-reader/
+- https://equitel.com/equitel-thin-sim-technology/
+- https://opensource.srlabs.de/projects/simtester
+- https://ginnoslab.org/2019/09/27/stattack-vulnerability-in-st-sim-browser-can-let-attackers-globally-take-control-of-hundreds-of-millions-of-the-victim-mobile-phones-worldwide-to-make-a-phone-call-send-sms-to-any-phone-numbers/
+- https://nvd.nist.gov/vuln/detail/CVE-2019-16256
+- https://www.reddit.com/r/GrapheneOS/comments/dhdo0e/simjacker_attacks/
+- https://bluesecblog.wordpress.com/2016/11/18/uicc-sim-usim/
+- https://www.etsi.org/deliver/etsi_ts/102200_102299/102221/15.00.00_60/ts_102221v150000p.pdf (ETSI TS 102 211 v15.0.0)
+- https://www.etsi.org/deliver/etsi_ts/131100_131199/131102/16.04.00_60/ts_131102v160400p.pdf (ESTI TS 131 102 v16.4.0 (2020-07) UMTS; LTE; 5G; Characteristics of the USIM application)
+- https://medium.com/telecom-expert/what-is-at-t-doing-at-1111340002-c418876c212c
+

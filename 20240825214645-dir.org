@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       4aa5efab-69e1-40f3-ab30-c45c5219141c
+:END:
+#+title: #DIR
+
+- [[id:88e4f334-a369-42ba-9c5f-84f58be22481][#DIR Mainframe]]

@@ -1,0 +1,40 @@
+:PROPERTIES:
+:ID:       c02a72e3-8f55-47b5-977b-28defb98cc52
+:END:
+#+title: Linux `/sys/` Directory
+
+In Linux, the "/sys/" directory is populated by the Linux kernel with information such as the computer hardware.
+
+Notably, within the "/sys/bus/pci/" directory, there are "devices/" and "slots/" sub-directories. The former is used for non-hotpluggable PCI devices while the latter is for information on hot-pluggable PCI slots.
+
+In the PCIe specification, there is an optional function level reset (FLR) functionality which can be triggered with the following command (not tested):
+
+    echo 1 >"/sys/bus/pci/devices/$dev/reset"
+
+Note that the "reset" file will only be present when its supported by the PCI device. Hence, a check for the existance of the file should be done beforehand.
+
+"A 'hot reset' is a conventional reset that is triggered across a PCI express link. A hot reset is triggered either when a link is forced into electrical idle or by sending TS1 and TS2 ordered sets with the hot reset bit set. Software can initiate a hot reset by setting and then clearing the secondary bus reset bit in the bridge control register in the PCI configuration space of the bridge port upstream of the device.". In Linux, there isn't a simple method for triggering a hot reset. However, `setpci` could be used:
+
+    port=$(basename $(dirname $(readlink "/sys/bus/pci/devices/$dev")))
+    
+    if [ ! -e "/sys/bus/pci/devices/$port" ]; then
+        echo "Error: device $port not found"
+        exit 1
+    fi
+    echo "Removing $dev..."
+    echo 1 >"/sys/bus/pci/devices/$dev/remove"
+    echo "Performing hot reset of port $port..."
+    bc=$(setpci -s $port BRIDGE_CONTROL)
+    echo "Bridge control: $bc"
+    setpci -s $port BRIDGE_CONTROL=$(printf "%04x" $(("0x$bc" | 0x40)))
+    sleep 0.01
+    setpci -s $port BRIDGE_CONTROL=$bc
+    sleep 0.5
+    echo "Rescanning bus..."
+    echo 1 >"/sys/bus/pci/devices/$port/rescan"
+
+** References
+
+- https://www.ibm.com/docs/en/power8/8408-44E?topic=rpirpa-verifying-that-hot-plug-pci-tools-are-installed-linux
+- https://unix.stackexchange.com/questions/29775/reset-a-pci-device-in-linux/42358#42358
+- https://unix.stackexchange.com/questions/73908/how-to-reset-cycle-power-to-a-pcie-device

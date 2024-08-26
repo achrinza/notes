@@ -1,0 +1,61 @@
+:PROPERTIES:
+:ID:       0708b4a7-9b03-4ce5-bb27-b97e4109996d
+:END:
+#+title: Cybersecurity Standards
+
+Note: This is a merger of two internal notes. To be refactored at some point.
+
+* Cybersecurity Data Models
+
+Cybersecurity data models provide a way to organise ingested logs, alerts, events, etc. to enable o
+
+** References
+
+- Common Data Security Architecture (CDSA) and Common Security Services Manager (CSSM)
+  - https://pubs.opengroup.org/onlinepubs/9629299/1_chap01.htm
+
+- https://cyberwardog.blogspot.com/2017/12/ready-to-hunt-first-show-me-your-data.html ("Ready to hunt? First, Show me your data!" by Roberto Rodriguez)
+
+- Advanced Security Information Model (ASIM)
+  - https://learn.microsoft.com/en-us/azure/sentinel/normalization-content
+
+- Open Source Security Events Metadata (OSSEM)
+  - https://github.com/OTRF/OSSEM
+
+- Open Cybersecurity Schema Framework (OCSF)
+  - https://github.com/ocsf/
+  - FAQ: https://github.com/ocsf/ocsf-docs/blob/main/FAQs/README.md
+
+- Sigma Taxonomy
+  - https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md
+
+- OpenC2
+  - https://openc2.org/
+  - FAQ: https://openc2.org/faqs.html
+
+- Real-time Inter-network Defence (RID)
+  - https://www.rfc-editor.org/rfc/rfc6545.html
+
+- Incident Object Description Exchange Format (IODEF)
+  - https://www.rfc-editor.org/rfc/rfc5070
+
+
+* Cybersecurity Notes
+
+** References
+- https://datatracker.ietf.org/doc/html/rfc3227 (Guidelines for Evidence Collection and Archiving)
+- https://maecproject.github.io/documentation/overview/
+- https://yara.readthedocs.io/en/v3.4.0/gettingstarted.html
+- https://cybersecurity.att.com/products/ossim
+- https://wmx-api-production.s3.amazonaws.com/courses/3901/supplementary/diamond.pdf
+- https://threatconnect.com/blog/tag/diamond-model-of-intrusion-analysis/
+- https://github.com/fireeye/OpenIOC_1.1
+- https://www.misp-project.org/
+- https://datatracker.ietf.org/doc/html/rfc7011 (Specification of the IP Flow Information Export (IPFIX) Protocol for the Exchange of Flow Information)
+
+
+- https://www.recordedfuture.com/solutions/threat-intelligence-feeds/
+- https://www.mandiant.com/advantage/threat-intelligence/subscribe
+- https://exchange.xforce.ibmcloud.com/
+
+"Living off the land"

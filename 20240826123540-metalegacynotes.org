@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       98f07121-ba2c-4267-b899-3217b2feb90c
+:END:
+#+title: #META Legacy Notes
+
+These notes were carried over from the legacy system require tidying up:
+
+- [[id:e1736104-769b-4c56-89ac-6c53a82fc772][ActiveX, OLE, COM]] 
+- [[id:dc2f6fa4-7198-4267-8666-d3004d69a029][SIM Card]]
+- [[id:77f3c21b-0b2b-44bd-8ce0-5512eef6a94b][PGP]]
+- [[id:c02a72e3-8f55-47b5-977b-28defb98cc52][Linux `/sys/` Directory]]
+- [[id:c24d14e0-72b4-452c-82d7-3965162e2810][QubesOS Disposable Qube Leftovers]]
+- [[id:2735bf50-2476-4903-8e13-cb2faa75ca38][Software Defined Networking]]
+- [[id:0708b4a7-9b03-4ce5-bb27-b97e4109996d][Cybersecurity Standards]]
+- [[id:303ac415-4546-4fdf-bfcb-46c83ca4afc0][Emacs]]

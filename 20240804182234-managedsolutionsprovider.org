@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       543561ff-437a-466c-9c97-6c970e663db3
+:END:
+#+title: Managed Solutions Provider (MSP)
+
+* Certifications
+
+** Personnel Certifications
+- [[https://www.crest-approved.org/skills-certifications-careers/crest-registered-penetration-tester][CREST Registered Penetration Tester]]
+
+  
+** Infrastructure Certifications
+- [[https://ww.imda.gov.sg/regulations-and-licensing-listing/ict-standards-and-quality-of-service/it-standards-and-frameworks/compliance-and-certifications][MTCS Certified Cloud Services]]
+

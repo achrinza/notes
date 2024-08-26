@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       6e2e9516-bff9-4926-9ff0-5df304b53bd6
+:END:
+#+title: Domain Names
+
+* Security
+
+- SSL
+  - [[id:5db3a1ca-20d6-4929-8c44-036623fc2f08][Certificate Authority Authorization (CAA)]]

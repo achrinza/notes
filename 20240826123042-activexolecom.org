@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       e1736104-769b-4c56-89ac-6c53a82fc772
+:END:
+#+title: ActiveX, OLE, COM
+
+Note: This is a copy from my legacy markdown notes with minimal editing and is subject to tidying.
+
+* Relationship
+
+"An ActiveX control is an OLE control that is intended to be used inside a web
+browesr. Likely an ActiveX control is marked Safe for Scripting and Safe for
+Initialization as well as being packaged to be installed via Authenticode.
+
+All ActiveX / OLE controls are COM objects, but not vice versa. ActiveX / COM
+controls are built on COM and implement a required minimum set of interfaces in
+order to operate properly within any OLE container."
+
+** References
+- Kill Bit
+  - https://msrc.microsoft.com/blog/2008/02/the-kill-bit-faq-part-1-of-3/
+  - https://msrc.microsoft.com/blog/2008/02/the-kill-bit-faq-part-2-of-3/
+- SiteLock
+  - https://learn.microsoft.com/en-us/archive/blogs/ie/developing-safer-activex-controls-using-the-sitelock-template
+- MSHTML Host Security
+  - https://msrc.microsoft.com/blog/2009/04/the-mshtml-host-security-faq-part-i-of-ii/
+

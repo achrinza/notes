@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       3e0faf16-bec6-4030-a4c4-dd83a9b20e19
+:END:
+#+title: Singapore MSPs
+
+A list can be found on [[https://elioplus.com/asia-pacific/singapore/channel-partners/fortinet][Elioplus]].
+
+- [[https://www.radixberrie.com][Radix Berrie]]
+- [[https://www.evvolabs.com][Evvo Labs]]
+- [[https://rammp.com.sg][RAMMP IT Solutions]]

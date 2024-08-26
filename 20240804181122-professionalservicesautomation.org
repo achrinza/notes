@@ -1,0 +1,17 @@
+:PROPERTIES:
+:ID:       2abf37ea-e531-4eb0-aa4f-4410c98f2a30
+:END:
+#+title: Professional Services Automation (PSA)
+
+* Features
+
+- Ticketing system with time tracking, email integration, and storefront
+- Integration with distributor (e.g. Pax8) (what does this mean?)
+- Integration with RMM software (e.g. Splashtop)
+- Invoicing
+- Price catalog
+
+
+* Choices
+
+- [[https://www.superops.ai][SuperOps]]

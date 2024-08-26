@@ -1,0 +1,6 @@
+:PROPERTIES:
+:ID:       26626188-a9db-4ef4-a043-028322e8dfa5
+:END:
+#+title: TypeScript
+
+TypeScript is a Javascript superset by Microsoft
