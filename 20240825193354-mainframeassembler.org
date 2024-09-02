@@ -3,8 +3,9 @@
 :END:
 #+title: Mainframe Assembler
 
-Reference: https://www.reddit.com/r/mainframe/comments/400ogh/smashing_the_zos_le_daisy_chain_for_fun_and_cease/
-Reference: [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Reading concatenated PDSE using QSAM - ibmmainframeforum.com]]
+Reference
+- https://www.reddit.com/r/mainframe/comments/400ogh/smashing_the_zos_le_daisy_chain_for_fun_and_cease/
+- [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Reading concatenated PDSE using QSAM - ibmmainframeforum.com]]
 
 * Assemblers
 
@@ -16,14 +17,170 @@ Reference: [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Readin
 | IEASM    |          | F Assembler                 |                        |
 | IFOX00   |          | Assembler XF / VS Assembler |                        |
 
+
 ASMA90 has some complementary cataloged procedures in SYS1.PROCLIB:
+
+
 | Name    | Notes                                                                                         |
 | ASMAC   | Assembly (compile).                                                                           |
-| ASMACL  | Assembly (compile) & Link. Produces an assembler listing, binder listing, and program module. |
-| ASMACLG | Assembly (compile), link, & run.                                                              |
+| ASMACL  | Assembly (compile) & bind (link). Produces an assembler listing, binder listing, and program module. |
+| ASMACLG | Assembly (compile), bind (link), & go.                                                     |
+
 
 ASMAxx series modules (load libraries) are stored under SYS1.ASM.SASMMOD1.
 
-Reference: https://www.ibm.com/docs/en/hla-and-tf/1.6?topic=procedures-cataloged-procedure-assembly-link-asmacl
-Reference: https://www.mvsforums.com/helpboards/viewtopic.php?p=2061&sid=da94c3b0b2598fbd6f5c4f49ebda7c97
-Reference: https://ibmmainframes.com/about9945.html
+
+Reference:
+- https://www.ibm.com/docs/en/hla-and-tf/1.6?topic=procedures-cataloged-procedure-assembly-link-asmacl
+- https://www.mvsforums.com/helpboards/viewtopic.php?p=2061&sid=da94c3b0b2598fbd6f5c4f49ebda7c97
+- https://ibmmainframes.com/about9945.html
+
+
+* Save Area and Linkage Conventions
+
+In Z/Architecture and its predecessors, a "programme" may call another "programme" through certain conventions.
+
+
+These conventions dictate the dance of storing and recovering General Registers and Access Registers of the caller by the callee.
+
+
+Note that the caller MUST accomodate for the callee's save area requirements. Failure to do so means a potential save area overrun.
+
+
+The callee is responsible for saving the caller's registers and a pointer to its own save area into the caller's save area.
+
+
+Register 13 is not pushed to the save area as it is used as a pointer to the current save area.
+
+
+| Offset 4 Code    | Name     | Caller's Save Area Size    | Caller | Callee  | Notes                                                                                                                |
+|------------------+----------+----------------------------+--------+---------+----------------------------------------------------------------------------------------------------------------------|
+| [32 bit address] | Standard | 72 bytes  (18 fullwords)   | 31 bit | 31 bit  | Address is the previous Save Area (i.e. the caller's save area)                                                      |
+| F1SA             |          |                            |        |         | New ESA Format / BAKR-PR                                                                                             |
+| F4SA             |          | 144 bytes (18 doublewords) | 64 bit | 64 bit  |                                                                                                                      |
+| F5SA             |          | 72 bytes  (18 fullwords)   | 31 bit | 64 bit  | Low halves of registers are stored in caller's save area. Used if the callee cannot control caller's save area size. |
+| F6SA             |          |                            |        |         | Same as F1SA(?)                                                                                                      |
+| F7SA             |          | 216 bytes (27 doublewords) | 64 bit | AR-mode | Register 13 is saved in the additional space (i.e. separate from other regs)                                         |
+| F8SA             |          | 288 bytes                  | 31 bit | 64 bit  | When callee needs to call an AR-mode program later (i.e. F7SA).                                                      |
+
+
+#+BEGIN_SRC text
+  "Standard" addressing convention:
+
+	   +------------+
+      0000 | [Reserved] |
+      0004 |    Prev    | -- Written by this routine.
+      0008 |    Next    | -+
+      000C |   Reg 14   |  |
+      0010 |   Reg 15   |  |-- Written by the callee routine:
+      0014 |   Reg  1   |  |     STM     14,12,12(13)
+	   |    ...     |  |     GETMAIN RU,LV=32
+      0048 |   Reg  12  | -+     ST      13,4(,1)
+	   +------------+        ST      1,8(,13)
+				 LR      13,1
+
+      Total save area bytes: 72
+#+END_SRC
+
+
+Other notes:
+- If the offset 4 code is 0000, this means that there is no prior save area. This may happen when the caller is the system.
+- Offset 4 code only informs about caller's Save Area format used by the callee, not the save area that the offset resides in.
+  - Exception: 
+
+
+References:
+- SHARE 2012 Anaheim: "Saving Your Caller's Registers - Not Your Father's Save Area" by Tom Marchant (Compuware)
+
+
+* Calling Conevtions
+
+Register 1 is used as the pointer to the parameter list, and high bit is used as last paraemter flag?
+
+
+* HLASM Language
+
+** Addressing Methods
+
+*** Base-Displacement(-Index) Addressing
+
+Syntax: D    <-- Base register omitted
+Syntax: D(B) <-- With base register
+
+D = Displacement in hex
+B = Base register that stores the base address (except register 0; 0 = no register, same as simpler "D"-only syntax)
+
+
+Effective address = D + B
+
+
+Some instructions support an index register, which requires either these syntaxes:
+
+
+Syntax: D(I,B)  <-- With index register
+Syntax: D(,B)   <-- Without index register
+
+
+Incrementing the index register allows a programmer to cycle through an array whilst maintaining the same base-displacement.
+
+
+** Relative Addressing
+
+- Newer addressing method.
+- Relative from current PSW in half-word increments.
+
+
+Example:
+
+
+#+BEGIN_SRC text
+	     LRL   1,NUMBER                LOAD RELATIVE REG1 WITH NUMBER
+  NUMBER     DC    F'23'
+#+END_SRC
+
+
+** Mnemonic Naming Convention
+
+General rule of thumb:
+
+
+| Mnemonic suffix | Description             |
+|-----------------+-------------------------|
+| G               | 64 bits (doubleword)    |
+| H               | 16 bits (halfword)      |
+| R               | Register                |
+| C               | Character (byte/memory) |
+| L               | Logical (i.e. unsigned) |
+
+
+"Size" suffix usually comes before "address type" (e.g LHR mnemonic for LOAD HALFWORD REGISTER instruction).
+
+
+* Literals
+
+| Prefix | Example   | Description   |
+|--------+-----------+---------------|
+| F      | F'1'      | FULLWORD of 1 |
+| H      | H'2'      | HALFWORD of 2 |
+| CL     | CL'8'     | ???           |
+| XL4    | XL4'9ABC' | ???           |
+| 18F    | 18F'-1'   | ???           |
+
+
+When used inline as an instruction operanad, prefix with "=" (e.g. LR 1,=F'1')
+
+
+** Literals Pool
+
+Implicitly created at end of CSECT. Can be explicitly declared with `LTORG` directive.
+
+
+* Common Instructions
+
+**  Load Register (e.g. "LR 1,2")
+
+| Mnemonic | Name                   | Register size (bits) |
+|----------+------------------------+----------------------|
+| LR       | Load Register          |                   32 |
+| LGR      | Load Grande Register   |                   64 |
+| LHR      | Load Halfword Register |                   16 |
