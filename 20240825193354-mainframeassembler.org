@@ -3,9 +3,6 @@
 :END:
 #+title: Mainframe Assembler
 
-Reference
-- https://www.reddit.com/r/mainframe/comments/400ogh/smashing_the_zos_le_daisy_chain_for_fun_and_cease/
-- [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Reading concatenated PDSE using QSAM - ibmmainframeforum.com]]
 
 * Assemblers
 
@@ -36,6 +33,28 @@ Reference:
 - https://ibmmainframes.com/about9945.html
 
 
+* Registers
+
+| ID | Usage                   |
+|----+-------------------------|
+|  0 |                         |
+|  1 | PARMLIST address        |
+|  2 |                         |
+|  3 |                         |
+|  4 |                         |
+|  5 |                         |
+|  6 |                         |
+|  7 |                         |
+|  8 |                         |
+|  9 |                         |
+| 10 |                         |
+| 11 |                         |
+| 12 | Base address            |
+| 13 | Save Area address       |
+| 14 | Caller's return address |
+| 15 | Return code             |
+
+
 * Save Area and Linkage Conventions
 
 In Z/Architecture and its predecessors, a "programme" may call another "programme" through certain conventions.
@@ -53,31 +72,34 @@ The callee is responsible for saving the caller's registers and a pointer to its
 Register 13 is not pushed to the save area as it is used as a pointer to the current save area.
 
 
-| Offset 4 Code    | Name     | Caller's Save Area Size    | Caller | Callee  | Notes                                                                                                                |
-|------------------+----------+----------------------------+--------+---------+----------------------------------------------------------------------------------------------------------------------|
-| [32 bit address] | Standard | 72 bytes  (18 fullwords)   | 31 bit | 31 bit  | Address is the previous Save Area (i.e. the caller's save area)                                                      |
-| F1SA             |          |                            |        |         | New ESA Format / BAKR-PR                                                                                             |
-| F4SA             |          | 144 bytes (18 doublewords) | 64 bit | 64 bit  |                                                                                                                      |
-| F5SA             |          | 72 bytes  (18 fullwords)   | 31 bit | 64 bit  | Low halves of registers are stored in caller's save area. Used if the callee cannot control caller's save area size. |
-| F6SA             |          |                            |        |         | Same as F1SA(?)                                                                                                      |
-| F7SA             |          | 216 bytes (27 doublewords) | 64 bit | AR-mode | Register 13 is saved in the additional space (i.e. separate from other regs)                                         |
-| F8SA             |          | 288 bytes                  | 31 bit | 64 bit  | When callee needs to call an AR-mode program later (i.e. F7SA).                                                      |
+Other than the "traditional" format, there are different save area formats that could be used. These are identified by their eye-catcher at save area offset x04.
+
+
+| Offset 4 Code    | Name        | Caller's Save Area Size    | Caller | Callee  | Notes                                                                                                                |
+|------------------+-------------+----------------------------+--------+---------+----------------------------------------------------------------------------------------------------------------------|
+| [32 bit address] | Traditional | 72 bytes  (18 fullwords)   | 31 bit | 31 bit  | Address is the previous Save Area (i.e. the caller's save area)                                                      |
+| F1SA             |             |                            |        |         | New ESA Format / BAKR-PR                                                                                             |
+| F4SA             |             | 144 bytes (18 doublewords) | 64 bit | 64 bit  |                                                                                                                      |
+| F5SA             |             | 72 bytes  (18 fullwords)   | 31 bit | 64 bit  | Low halves of registers are stored in caller's save area. Used if the callee cannot control caller's save area size. |
+| F6SA             |             |                            |        |         | Same as F1SA(?)                                                                                                      |
+| F7SA             |             | 216 bytes (27 doublewords) | 64 bit | AR-mode | Register 13 is saved in the additional space (i.e. separate from other regs)                                         |
+| F8SA             |             | 288 bytes                  | 31 bit | 64 bit  | When callee needs to call an AR-mode program later (i.e. F7SA).                                                      |
 
 
 #+BEGIN_SRC text
-  "Standard" addressing convention:
+  "Traditional" 72-bit Save Area:
 
-	   +------------+
+           +------------+
       0000 | [Reserved] |
       0004 |    Prev    | -- Written by this routine.
       0008 |    Next    | -+
       000C |   Reg 14   |  |
       0010 |   Reg 15   |  |-- Written by the callee routine:
       0014 |   Reg  1   |  |     STM     14,12,12(13)
-	   |    ...     |  |     GETMAIN RU,LV=32
+           |    ...     |  |     GETMAIN RU,LV=32
       0048 |   Reg  12  | -+     ST      13,4(,1)
-	   +------------+        ST      1,8(,13)
-				 LR      13,1
+           +------------+        ST      1,8(,13)
+                                 LR      13,1
 
       Total save area bytes: 72
 #+END_SRC
@@ -85,15 +107,16 @@ Register 13 is not pushed to the save area as it is used as a pointer to the cur
 
 Other notes:
 - If the offset 4 code is 0000, this means that there is no prior save area. This may happen when the caller is the system.
+- When not a memory address, offset 4 code acts as an "eye-catcher", making it easier when reading storage (ala memory) dumps
 - Offset 4 code only informs about caller's Save Area format used by the callee, not the save area that the offset resides in.
-  - Exception: 
+  - Exception: The location of the "previous save area" pointer in the current save area.
 
 
 References:
 - SHARE 2012 Anaheim: "Saving Your Caller's Registers - Not Your Father's Save Area" by Tom Marchant (Compuware)
 
 
-* Calling Conevtions
+* Calling Conventions
 
 Register 1 is used as the pointer to the parameter list, and high bit is used as last paraemter flag?
 
@@ -130,11 +153,9 @@ Incrementing the index register allows a programmer to cycle through an array wh
 - Relative from current PSW in half-word increments.
 
 
-Example:
-
-
+#+NAME: Relative Addressing Example
 #+BEGIN_SRC text
-	     LRL   1,NUMBER                LOAD RELATIVE REG1 WITH NUMBER
+             LRL   1,NUMBER                LOAD RELATIVE REG1 WITH NUMBER
   NUMBER     DC    F'23'
 #+END_SRC
 
@@ -184,3 +205,12 @@ Implicitly created at end of CSECT. Can be explicitly declared with `LTORG` dire
 | LR       | Load Register          |                   32 |
 | LGR      | Load Grande Register   |                   64 |
 | LHR      | Load Halfword Register |                   16 |
+
+
+* References
+
+- [[http://www.simotime.com/qsamio01.htm][SimoTime - QSAM Access from Assembler called by COBOL]]
+- https://planetmvs.com/hlasm/index.html
+- https://medium.com/theropod/the-useless-box-in-cobol-c-and-assembler-on-an-ibm-mainframe-4ccc2dc5f840
+- https://www.reddit.com/r/mainframe/comments/400ogh/smashing_the_zos_le_daisy_chain_for_fun_and_cease/
+- [[https://www.ibmmainframeforum.com/assembler/topic10984.html][Reading concatenated PDSE using QSAM - ibmmainframeforum.com]]

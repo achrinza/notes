@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       109a78dc-c730-41f4-aba9-7d41fd38aca5
+:END:
+#+title: IEEE Taggant System
+
+References:
+- [[https://standards.ieee.org/wp-content/uploads/import/documents/other/taggant.pdf][IEEE Software Taggant System in Action]]
+  Mirrors:
+  - https://web.archive.org/web/20180613165116/http://standards.ieee.org/develop/indconn/icsg/taggant.pdf
+- https://reverseengineering.stackexchange.com/questions/21265/detecting-cracked-themida-packed-malware

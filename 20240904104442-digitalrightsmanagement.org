@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       106caa8d-5139-4a7e-a730-8c3a8109db17
+:END:
+#+title: Digital Rights Management (DRM)
+
+| Type     | Media           | System                                    | Acronym |
+|----------+-----------------+-------------------------------------------+---------|
+| Physical | DVD             | Content Scramble System                   | CSS     |
+| Physical | HD-DVD, Blu-ray | [[id:9107b7dd-1992-40c3-9a5b-266899f5ac83][Advanced Access Control System (AACS)]]     | AACSv1  |
+| Physical | UHD Blu-ray     | Advanced Access Control System 2 (AACSv2) | AACSv2  |

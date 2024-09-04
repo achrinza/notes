@@ -153,3 +153,12 @@
 - https://melpa.org/#/getting-started
 - https://www.gnu.org/software/emacs/manual/html_node/emacs/Package-Files.html
 - https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html
+
+
+* Others
+
+** References
+- https://maplet.bearblog.dev/my-emacs-org-mode-config-as-a-student/
+- https://kristofferbalintona.me/posts/202206141852/
+- https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html
+- https://karl-voit.at/2017/09/23/orgmode-as-markup-only/
