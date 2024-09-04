@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       af207c02-b4e8-4a64-8f16-138837793444
+:END:
+#+title: x86 Assembly
+
+References:
+- [[https://levelup.gitconnected.com/x86-calling-conventions-a34812afe097][x86 Calling Conventions]]

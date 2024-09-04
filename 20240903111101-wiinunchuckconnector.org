@@ -1,0 +1,62 @@
+:PROPERTIES:
+:ID:       5ced62d5-f6bb-49a2-94bd-e38220c71456
+:END:
+#+title: Wii (Nunchuck) Connector
+
+An I2C-based protocol with a proprietary handshake.
+(I recall this handshake is unique to each accessory?)
+
+#+NAME: Wii Connector Pinout
+#+BEGIN_SRC text
+
+  Female Recepticle
+
+     +---------+
+     |  1 2 3  |
+     |  6 5 4  |
+     | ------- |
+     +-+     +-+
+
+  1 - SDA (I2C Data)
+  2 - Presence / Device Detect
+  3 - +3.3V
+  4 - SCL (I2C Clock)
+  5 - N.C.
+  6 - GND
+#+END_SRC
+
+
+* Wii Nunchuck
+
+#+NAME: Wii Nunchuck Data
+#+BEGIN_SRC text
+  +------+---------------------------------------+	 
+  |   \  |                Bit                    |
+  +------+---------------------------------------+	 
+  | Byte |  7    6    5    4    3    2    1    0 |
+  +------+----+----+----+----+----+----+----+----+
+  |   0  |          Joystick X-Axis [7:0]        |
+  |   1  |          Joystick Y-Axis [7:0]        |
+  |   2  |       Accelerometer X-Axis [9:2]      |
+  |   3  |       Accelerometer Y-Axis [9:2]      |
+  |   4  | Az [1:0]| Ay [1:0]| Ax [1:0]| Bc | Bz |
+  +------+---------------------------------------+	 
+
+  READ ADDRESS        : A4
+  WRITE ADDRESS       : A5
+  HANDSHAKE           : A4 40 00
+  HANDSHAKE (KNOCKOFF): A4 F0 55 A4 FB 00
+  OPERATING FREQUENCY : 100khz (rated); 400khz possible(?)
+  INPUT               : 3.3V (rated, may cause resets); 3.8V (may mitigate resets?); 5V (recommended?)
+#+END_SRC
+
+
+References:
+- [[https://allaboutmcu.wordpress.com/2012/11/05/interfacing-a-wii-nunchuck-with-a-dspic30f4011-using-i2cabout-time-ps-this-is-a-draft/][Interfacing a Wii nunchuck with a dsPIC30f4011 using I2C(about time!)]]
+- [[http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck][Wiimote/Extension Controllers/Nunchuck]]
+
+
+* Wii Motion Plus
+
+References:
+- [[https://allaboutmcu.wordpress.com/2012/11/05/interfacing-a-wii-motion-plus-to-the-dspic30f4011draft/][Interfacing a Wii motion plus to the dspic30F4011]]

@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       403ab223-1e2e-4043-ba56-ccce42d65705
+:END:
+#+title: Code Obfuscators & Packers
+
+| Name                                  |
+|---------------------------------------|
+| Themida                               |
+| Ultimate Packer for eXecutables (UPX) |
+
+
+* Adjacent Tools
+
+| Name                | Description                                                                            |
+|---------------------+----------------------------------------------------------------------------------------|
+| [[id:109a78dc-c730-41f4-aba9-7d41fd38aca5][IEEE Taggant System]] | Adds a cryptographic signature to verify "valid use" of commercial packer in software. |
+
+* References
+- https://reverseengineering.stackexchange.com/questions/1478/how-common-are-virtualized-packers-in-the-wild/1479#1479

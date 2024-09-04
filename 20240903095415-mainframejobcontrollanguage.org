@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       e69d464c-b788-488c-b63e-39d584a07b6c
+:END:
+#+title: Mainframe Job Control Language (JCL)
+
+Fred Brooks claims that "JCL is the worst language ever"
+
+Reference:
+- https://groups.google.com/g/alt.folklore.computers/c/nKfGUhdkO8U
