@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       61774ef6-f098-4b13-9916-cc7f4b1c764e
+:END:
+#+title: Version Control Software (VCS)
+
+- Git
+- Fossil
+- GNU Bazaar
+- Apache Subversion (SVN)
+- Mercurial
+- Sapling

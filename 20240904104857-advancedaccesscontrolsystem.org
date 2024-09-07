@@ -3,3 +3,21 @@
 :END:
 #+title: Advanced Access Control System (AACS)
 
+* Components
+
+** Revocation Lists
+
+- Device Revocation List
+- Host Revocation List
+- Media Revocation List
+
+
+** Decryption
+
+- Device Key
+- C-value (encrypted media key)
+- Volume Unique Key
+- Volume ID
+- Media Key Block
+  - Media Key
+- Processing Key
