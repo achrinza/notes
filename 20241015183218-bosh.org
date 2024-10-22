@@ -1,0 +1,229 @@
+:PROPERTIES:
+:ID:       b509a45a-850d-4182-b225-c1b3e1e58bad
+:END:
+#+title: BOSH
+
+BOSH is a multi-cloud virtual machine orchestrator by Cloud Foundry.
+
+* Deployment modes
+
+| Name       | Description                                                                                                                                                                                            |
+|------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Multi VMs  | The classical BOSH mode as used by many companies. The BOSH server runs alone on its VM, and all managed nodes are on their own VM too.                                                                |
+| Single VM  | The classical BOSH-Lite mode, where one signle VM runs both the BOSH server, and managed nodes. The BOSH server is on the VM itself, whereas managed nodes are deployed in containers, on the same VM. |
+| Hybrid VMs |                                                                                                                                                                                                        |
+
+
+#+BEGIN_SRC text
+  +-------------------+
+  | CLI               |
+  |                   |
+  | +--------------+  |
+  | | `create-env` |  |
+  | |   director   |  |
+  | |              |  |
+  | |   +-----+    |  |
+  | |   | CPI |    |  |
+  | |   +-----+    |  |
+  | +--------------+  |
+  +-------------------+
+
+
+#+END_SRC
+
+
+* Directors
+
+There are two directors:
+
+| Name                    | Description |
+|-------------------------+-------------|
+| `create-env` director   |             |
+| "Proto"/"Mama" director |             |
+
+
+* Authentication, Authorisation, Accounting
+
+
+* Templating
+
+`(( ))` is used to denote variables for substituion. This can be used o nboth `create-env` and "mama" directors.
+
+With `((! ))`, BOSH will strip out the exclamation mark and perform substitution. This is useful if the regular `(( ))` syntax is already used by external tools such sa Spiff and Spruce.
+
+
+** Ruby ERB template properties
+
+See: https://bosh.io/docs/jobs/#spec
+
+
+** Config Server
+
+See: https://github.com/cloudfoundry-attic/bosh-notes/blob/6221997c4fe21e4812e2312c762332db52182342/proposals/config-server.md
+
+
+* Common configs API
+
+The common configs API was introduced in BOSH Director v264.1 (2017-11-08) via Git commit [[https://github.com/cloudfoundry/bosh/commit/98f8accf1d03eead7239b61582154d1bae10e0dd][98f8acc]].
+
+For consumers that support multiple configs, it is by convention(?) that they are parsed by their ID in descending order.
+
+Note that generic config support is not a requirement for multi-config support (such as in cloud config), neither does it enforce any consistent multi-config support.
+
+Known configs:
+
+| Name             | Docs                                                              | Type         | JSON Schema             | Non-generic update command | Generic config support | Multi-config support                       | Proposal/Discussion                                                                                                      |
+|------------------+-------------------------------------------------------------------+--------------+-------------------------+----------------------------+------------------------+--------------------------------------------+--------------------------------------------------------------------------------------------------------------------------|
+| deploy           | https://bosh.io/docs/deploy-config/                               | User-defined | [[https://json.schemastore.org/bosh-deploy-config.json][bosh-deploy-config.json]] | Nil                        | Yes                    | [[https://github.com/cloudfoundry/bosh-cli/pull/634][Multi-name]]                                 | https://github.com/cloudfoundry/bosh/discussions/2472                                                                    |
+| cloud            | https://bosh.io/docs/cloud-config/                                | Director     |                         | update-cloud-config        | [[https://github.com/cloudfoundry/bosh/commit/bcb3cf21a714722577bf82add4d14440c674d190][Yes]]                    | [[https://github.com/cloudfoundry/bosh/blob/b6673073f47351f657fec4f8980c94c7d9561fdc/src/bosh-director/lib/bosh/director/cloud_config/cloud_configs_consolidator.rb#L36-L63][Multi-name, no duplicate `compilation` key]] |                                                                                                                          |
+| cpi              | https://bosh.io/docs/cpi-config/                                  | Director     |                         | update-cpi-config          | Yes                    |                                            |                                                                                                                          |
+| runtime          | https://bosh.io/docs/runtime-config/                              | Director     |                         | update-runtime-config      | Yes                    | [[https://github.com/cloudfoundry/bosh/commit/24ba07c91e82e3e7bf73664ffc07777ba33c6b9e#diff-a5950a4de9d9d6b0b35290c69f45521b16b042c248354f8c2e0b1107921058a8][Multi-name]]                                 |                                                                                                                          |
+| tasks(?)         |                                                                   |              |                         |                            |                        |                                            | https://github.com/cloudfoundry-attic/bosh-notes/blob/6221997c4fe21e4812e2312c762332db52182342/proposals/tasks-config.md |
+| resurrection     | https://bosh.io/docs/resurrector/#enable-with-resurrection-config | User-defined |                         | Nil                        | Yes                    | [[https://github.com/barthy1/bosh/blob/568e0f0aaf24a5f7e217aeba3ec12209e0898b1c/src/bosh-monitor/lib/bosh/monitor/director.rb#L23][Single]]                                     | https://github.com/cloudfoundry-attic/bosh-notes/blob/master/proposals/resurrection-config.md                            |
+| config-server(?) |                                                                   |              |                         |                            |                        |                                            |                                                                                                                          |
+
+See: https://github.com/cloudfoundry-attic/bosh-notes/blob/6221997c4fe21e4812e2312c762332db52182342/proposals/configs-api.md
+See: https://bosh.io/docs/configs/
+
+
+** Deploy config
+
+Unlike the other predefined config types in BOSH, the deploy configs are pulled and parsed by the BOSH CLI (v7.5.0 onwards) directly, rather than by the BOSH Director.
+
+The syntax is as follows:
+
+#+BEGIN_SRC yaml
+  include:
+    - deploymentName
+  exclude:
+    - deploymentName
+  flags:
+    - fix-releases
+    - fix
+    - recreate
+    - recreate-persistent-disks
+#+END_SRC
+
+
+* Well-knwon CLI environment variables
+
+| Name                   | Remarks |
+|------------------------+---------|
+| BOSH_CLIENT            |         |
+| BOSH_CLIENT_SECRET     |         |
+| BOSH_CONFIG            |         |
+| BOSH_ENVIRONMENT       |         |
+| BOSH_CA_CERT           |         |
+| BOSH_SHA2              |         |
+| BOSH_DEPLOYMENT        |         |
+| BOSH_ALL_PROXY         |         |
+| BOHS_AGENT_CERTIFICATE |         |
+| BOSH_GW_DISABLE        |         |
+| BOSH_GW_HOST           |         |
+| BOSH_GW_USER           |         |
+
+
+* Important directories
+
+Related for releae authors:
+
+| Path                                        | Description                                                            | Docs                                       |
+|---------------------------------------------+------------------------------------------------------------------------+--------------------------------------------|
+| /var/vcap/store                             | Persistent disk mount                                                  |                                            |
+| /var/vcap/jobs/[job name]                   | Jobs as defined by the deployment definition                           | https://bosh.io/docs/vm-struct/            |
+| /var/vcap/packages/[package name]           | Packages that are referenced by at least one job                       | https://bosh.io/docs/vm-struct/            |
+| /var/vcap/data/[job name]                   | `tmp` directory for jobs                                               | https://bosh.io/docs/vm-config/            |
+| /tmp                                        | Global temporary directory. Limited to 128MB. Usage discouraged.       | https://bosh.io/docs/vm-config/            |
+| /var/vcap/sys/log/<job name>                | Syslogs for jobs. Must end in `.log`.                                  | https://bosh.io/docs/job-logs/#job-logs    |
+| /var/vcap/sys/log/<job name>/<process name> | Nested syslogs for jobs. Must end in `.log`.                           |                                            |
+| /var/vcap/sys/log/<job_name>/stdout.log     | Syslogs for errands. Used when logs are expected to be larger than 1MB | https://bosh.io/docs/job-logs/#errand-logs |
+| /var/vcap/store/<job name>                  | Persistent storage for jobs.                                           |                                            |
+| /var/vcap/sys/run/<job name>                | Ephemeral data on running processes for jobs (e.g. lockfiles)          |                                            |
+
+Intenral for BOSH itself:
+
+| Path                                | Description |                                         |
+|-------------------------------------+-------------+-----------------------------------------|
+| /var/vcap/bosh/agent.json           |             |                                         |
+| /var/vcap/bosh/settings.json        |             |                                         |
+| /var/vcap/bosh/update_settings.json |             |                                         |
+| /var/vcap/bosh/log/current          |             |                                         |
+| /var/vcap/bosh/etc/ntpserver        |             |                                         |
+| /var/vcap/monit/job                 |             |                                         |
+| /var/vcap/monit/monit.log           |             |                                         |
+| /var/vcap/instancce/az              |             | https://bosh.io/docs/instance-metadata/ |
+| /var/vcap/instancce/deployment      |             | https://bosh.io/docs/instance-metadata/ |
+| /var/vcap/instancce/index           |             | https://bosh.io/docs/instance-metadata/ |
+| /var/vcap/instancce/id              |             | https://bosh.io/docs/instance-metadata/ |
+| /var/vcap/instancce/name            |             | https://bosh.io/docs/instance-metadata/ |
+
+
+* Stemcells
+
+** Building stemcells
+
+| OS family | Platform | Builder                       |
+|-----------+----------+-------------------------------|
+| Linux     | All      | [[https://github.com/cloudfoundry/bosh-linux-stemcell-builder][bosh-linux-stemcell-builder]]   |
+| Windows   | All      | [[https://github.com/cloudfoundry/bosh-windows-stemcell-builder/wiki/BOSH-Windows-Getting-Started-Guide][bosh-windows-stemcell-builder]] |
+| Windows   | vSphere  | [[https://github.com/cloudfoundry/stembuild][stembuild]]                     |
+
+
+
+* Releases
+
+** Packaging Scripts
+
+Ruby ERB Template Propreties: These are run directly on the compilation vm, hence do not have access to template properties.
+Environment Variables: The following are available:
+
+| Name                 |
+|----------------------|
+| BOSH_COMPILE_TARGET  |
+| BOSH_INSTALL_TARGET  |
+| BOSH_PACKAGE_NAME    |
+| BOSH_PACKAGE_VERSION |
+
+See: https://github.com/cloudfoundry/bosh-agent/blob/0920804ff4c551d41510a4fd5055b11a446c29a2/agent/compiler/compiler_unix.go#L16-L19
+
+
+* Reconciliation
+
+Generally, BOSH is quite conservative with reconciliation, and can be controlled through "update.canaries" and "update.max_in_flight". The main exception to this is when removing an availability zone.
+
+Reconcilliation does not occur for these scenarios:
+
+- `bosh stop --hard [instance_group]/[instance_id]`
+
+
+** Deployment update propagation
+
+
+Deployments' virtual machines are updated in this order:
+1. The bootstrap VM
+2. All virtual machines of the first availability zone
+3. All virtual machines of the second availability zone
+4. etc.
+
+
+** Scaling in
+
+The instance with greater index (i.e. the latest that hsa been added) is removed first.
+
+
+** Rebalancing
+
+*** Instance group's persistent disks
+
+| Has persistent disk? | Rebalance?                                                             | 
+|----------------------+------------------------------------------------------------------------|
+| No                   | Yes; Immediate                                                         |
+| Yes                  | No; Balancing will only be considered during creation of new instances |
+
+*** Instance group's availability zones
+
+IMPORTANT NOTE: Removal of avai
+
+| Availability zone | Rebalance?                                                              |
+|-------------------+-------------------------------------------------------------------------|
+| Removed           | Immediate; IG's"update.canaries" and "update.max_in_flight" are ignored |

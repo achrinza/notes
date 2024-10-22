@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       5de42015-cf12-4dbe-9d93-98a46c6adc31
+:END:
+#+title: Apache JServ Protocol (AJP) Request Smuggling
+
+AJP is a binary protocol that's akin to HTTP 
+
+* References
+- [[https://ricterz-me.translate.goog/posts/2022-03-03-a-new-attack-method-ajp-request-smuggling.txt?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp&ref=labs.watchtowr.com][A New Attack Method: AJP Request Smuggling - Ricter Zheng (Google Translate)]] ([[https://ricterz.me/posts/2022-03-03-a-new-attack-method-ajp-request-smuggling.txt][Original (Simplified Chinese)]])

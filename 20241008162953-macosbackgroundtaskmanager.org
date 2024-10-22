@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       2fa6ec95-244d-46f0-886d-53811090b159
+:END:
+#+title: macOS Background Task Manager (BTM)
+
+* Quick Reference
+
+Database location: /var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v13.btm (Binary Plist; `v13` may be some other version).
+
+
+* About
+
+- Consolidates background tasks (LaunchAgent, LaunchDaemon, LoginItem) installed through `SMAppSerivce` and its predecessors.
+- Notifies user on installation of background tasks, and provides user ability to enable/disable via System Preferences.
+- Can be listed with: `sudo sfltool dumpbtm`

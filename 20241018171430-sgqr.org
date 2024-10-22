@@ -1,0 +1,64 @@
+:PROPERTIES:
+:ID:       c7986f1b-fbee-42c1-b186-f2e59aa29dbd
+:END:
+#+title: SGQR
+
+* Examples in the wild
+
+#+TITLE: Examples in the wild
+#+BEGIN_SRC yaml
+  - location: "waterwaypoint"
+    franchise: "sopho"
+    sgqrStatic: "http://myfave.com/qr/9plytr51800007SG.SGQR01121901162E5BFB020701.00030306828761040201050228060400000708202212195204581253037025802SG5910SO"
+    sgqrStaticID: "1901162E5BFB"
+    sgqrStaticVer: "01.0003"
+    sgqrStaticMerchantName: "SO PHO WWP"
+    sgqrStaticIconsCompletion: "partially-obscured"
+    sgqrStaticIcons:
+      - "grab"
+    shopback: "https://app.shopback.com/pay?qr=00020101021126370011sg.shopback0118a1w840000000K7DAAU5204000053037025802SG5901-6009Singapore63049825&qrType=unified"
+    retrieved: "2024-10-18"
+
+  - location: "waterwaypoint"
+    franchise: "taladthaibanana"
+    paynowDynamic: "00020126580009SG.PAYNOW010120213200508714EA010301004142024101816155252040000530370254045.005802SG5917OXPAY SG PTE.LTD.6009Singapore62120108139190006304D40B"
+    retrieved: "2024-10-18"
+
+  - location: "nex"
+    franchise: "baskinrobins"
+    sgqrStatic: "00020101021126520008com.grab0136b9658c27-05f0-40e4-b17b-cc5b30717cba51800007SG.SGQR0112230928333DBB020701.000103065560830402010502K4060400000708202309285204581453037025802SG5920BASKIN ROBBINS (NEX)6009Singapore63044F02"
+    sgqrStaticMerchantName: "BASKIN ROBINS (NEXT)"
+    sgqrStaticIconsCompletion: "complete"
+    sgqrStaticIcons:
+      - "grab"
+    shopback: "https://app.shopback.com/pay?qr=00020101021126370011sg.shopback0118a1w2x000001ZFsyAAG5204000053037025802SG5901-6009Singapore630462B0&qrType=unified"
+    retrieved: "2024-10-10"
+
+  - location: "sengkanggrand"
+    franchise: "foodcourt-drinks"
+    sgqrStatic: "0002010102111531260207020052044611101025349    26860011SG.COM.NETS01231198500065G991231235900021111101025349030823044210100129908CCE4EDA851790007SG.SGQR011224042933B2B9020701.000103066298230402020503K380602100708202404295204000053037025802SG5906DRINKS6009Singapore6304CF91"
+    sgqrStaticID: "24042933B2B9"
+    sgqrStaticVer: "01.0001"
+    sgqrStaticMerchantName: "DRINKS"
+    sgqrStaticIconsCompletion: "partially-obscured"
+    sgqrStaticIcons:
+      - "activesg"
+      - "alipay"
+      - "americanexpress"
+      - "singteldash"
+      - "dbspaylah"
+      - "dinersclubinternational"
+      - "discovery"
+      - "aby"
+      - "netsqr"
+      - "netspay"
+      - "alipayplus"
+      - "ocbc"
+      - "standardchartered"
+      - "shopeepay"
+      - "xnap"
+      - "unionpay"
+    retrieved:
+      - "2024-09-06"
+      - "2024-09-25"
+#+END_SRC

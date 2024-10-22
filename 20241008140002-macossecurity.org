@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       45f8bf34-f2ee-4911-b016-2ab82a9ac68a
+:END:
+#+title: macOS Security
+
+Components:
+
+- OpenDirectory (`dscl` and `sysadminctl`)
+- Apple Sandbox
+- System Integrity Protection (SIP/rootless)
+  Uses Apple Sandbox under the hood.
+- Authorization (authd + SecurityAgent)
+  Database location: /var/db/auth.db (Previously in some old-old macOS version: /etc/auth.db)
+  Database default template location: /System/Library/Security/authorization.plist
+  Get logs:
+  `log show --style=syslog --predicate='subsystem=="com.apple.Authorization"' --past=1d`
+- [[id:2fa6ec95-244d-46f0-886d-53811090b159][macOS Background Task Manager (BTM)]]
+- Service Management Framework (`SMAppService`)
+  Replacement for `/Library/Launch*`, `SMJobBless()` (which installs to `/Library/PrivilegedHelperTools/`), and `AuthorizationExecuteWithPrivileges()`
+- PackageKit InstallScriptActions & InstallScriptMutations
+- User-approved MDM enrolment (UAMDM) (macOS 10.13.2+)

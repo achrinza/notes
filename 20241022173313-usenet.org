@@ -1,0 +1,72 @@
+:PROPERTIES:
+:ID:       9e4740e0-01f0-48a4-b629-f8c368d262ed
+:END:
+#+title: Usenet
+
+* Random stuff
+
+- NNRP as a separate protocol does not exist, even though inn2 kept the name in "nnrpd"
+- https://news.ycombinator.com/item?id=16473679
+- Very detailed: https://ftp.wayne.edu/ldp/en/Usenet-News-HOWTO/Usenet-News-HOWTO-single.html
+- https://ftp.wayne.edu/ldp/HOWTO/Usenet-News-HOWTO/softwarehistory.html
+- https://www.cs.cmu.edu/~jhancock/lists/usenet.html
+- https://documentation.highwinds-software.com/docs/new_html/chap-book-intro.html
+- Has graphic for innd: http://www.ritual.org/summer/pinn/newsserver.htmld/index.html
+- https://mirrors.dotsrc.org/slackware/slackware-2.3/docs/News-HOWTO
+- https://www.davebucklin.com/play/2018/09/03/usenet.html
+- https://www.novabbs.com/usenet/article-flat.php?id=2000&group=news.admin.peering#2000
+
+  
+* Peering checklist
+
+- Spam filters
+  - [[http://www.mixmin.net/cleanfeed/][Cleanfeed]]
+  - [[http://www.cm.org/][NoCeM]]
+  - Spamassasin
+- User registration requirements
+- ???
+
+
+** Potential servers to peer
+
+- [[https://www.eternal-september.org/index.php?showpage=peering][Eternal September]]
+- [[https://www.i2pn2.org/?page_id=15][i2pn2.org]]
+
+
+* NNTP server software
+
+** Feeder server
+
+- INN2
+- Diablo
+
+*** INN2 config breakdown
+
+**** newsfeeds
+
+Binary: innd
+Direction: Incoming
+Docs: https://www.eyrie.org/~eagle/software/inn/docs-2.7/newsfeeds.html#S3
+Recommendations: https://www.novabbs.com/usenet/article-flat.php?id=2000&group=news.admin.peering#2000
+
+*** Supplemental software and services
+
+- [[http://www.cm.org/][NoCeM]]
+- [[http://top1000.anthologeek.net/][TOP1000]]
+
+  
+** Light(?) servers
+
+- [[https://github.com/lazarus-pkgs/suck][Suck]]
+- Leafnode
+
+
+** Web-based usenet
+
+- [[https://gitlab.com/rslight-public/rocksolid-light][Rocksolid Light]]
+
+
+* User guides
+
+- https://web.cecs.pdx.edu/~rootd/catdoc/guide/TheGuide_203.html
+- https://www.cs.cmu.edu/~jhancock/lists/usenet.html

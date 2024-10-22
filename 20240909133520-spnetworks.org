@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       7eba97f2-547a-42b4-bb79-10069c8468e3
+:END:
+#+title: Substitution-Permutation (SP) Networks
+
+An SP Network an S-box and P-Box to create a round.
+
+An output of a round is fed back into another round for multiple rounds.
+
+#+BEGIN_SRC text
+                    Key Schedule
+                         |
+  -  INPUT (8 bit) -   +-+-+ Key
+           |           |   |  |
+          XOR -------- Key 0 -+  --+
+   +-+-+-+-+-+-+-+-+               |
+   | | | |   | | | |               |
+  +-------+ +-------+              |
+  | S-Box | | S-Box |              |
+  +-------+ +-------+              |
+   | | | |   | | | |            1 round
+  +-----------------+              |
+  |       P-Box     |              |
+  +-----------------+              |
+    | | | | | | | |                |
+  -  OUTPUT (8 bit) -            --+
+#+END_SRC
+
+
+* Substitution Box (S-Box)
+
+Characteristics:
+- 

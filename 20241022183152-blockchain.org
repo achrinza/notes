@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       6ba982de-0352-4428-b531-eb8412b0b44d
+:END:
+#+title: Blockchain
+
+* Cryptocurrencies
+
+** Stablecoins
+
+Types of stablecoins:
+
+- Algorithmic
+
+
+* Layer 2 blockchains
+
+[[https://l2beat.com/scaling/summary][L2BEAT]] provides an interactive summary of the major L2 chains along with a risk score.
+
+See also:
+- https://old.reddit.com/r/ethereum/comments/rrxowm/question_on_l2_security/

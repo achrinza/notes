@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       63871233-e68b-4a21-b511-648b7459cced
+:END:
+#+title: OpenStack Nova
+
+Main code repository: https://opendev.org/openstack/nova
+
+* Hypervisor Support
+- https://docs.openstack.org/nova/latest/user/support-matrix.html
+
+Note: Any reference to "parallels" is for Virtuozzo
+
+* Cells
+- https://docs.openstack.org/nova/latest/admin/cells.html#cells-v2-caveats
+
+* Live Migrations
+
+- https://docs.openstack.org/nova/latest/admin/live-migration-usage.html
+- https://docs.openstack.org/nova/latest/admin/configuring-migrations.html#section-configuring-compute-migrations
